@@ -1,0 +1,1 @@
+{"name":"creatorforge-ai","version":"0.1.1","scripts":{"dev":"node src/server.js"}}
