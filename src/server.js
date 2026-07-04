@@ -1,1 +1,0 @@
-const http=require('http');http.createServer((q,s)=>{if(q.url=='/health'){s.setHeader('Content-Type','application/json');return s.end(JSON.stringify({status:'ok',version:'0.1.1'}));}s.end('CreatorForge AI API');}).listen(3000,()=>console.log('Started'));
