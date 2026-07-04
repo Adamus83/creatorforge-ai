@@ -1,26 +1,25 @@
-import Fastify from "fastify";
-import cors from "@fastify/cors";
+import dotenv from "dotenv";
+import { buildApp } from "./app.js";
 
-const app = Fastify({
-  logger: true,
-});
+dotenv.config();
 
-await app.register(cors);
+const PORT = Number(process.env.PORT ?? 3000);
+const HOST = process.env.HOST ?? "0.0.0.0";
 
-app.get("/health", async () => {
-  return {
-    status: "ok",
-    version: "0.2.0",
-    service: "CreatorForge AI",
-  };
-});
+async function start() {
+  const app = await buildApp();
 
-try {
-  await app.listen({
-    port: 3000,
-    host: "0.0.0.0",
-  });
-} catch (err) {
-  app.log.error(err);
-  process.exit(1);
+  try {
+    await app.listen({
+      host: HOST,
+      port: PORT,
+    });
+
+    console.log(`🚀 CreatorForge AI running on http://${HOST}:${PORT}`);
+  } catch (error) {
+    app.log.error(error);
+    process.exit(1);
+  }
 }
+
+start();
