@@ -1,7 +1,9 @@
 import Fastify, { FastifyInstance } from "fastify";
 import cors from "@fastify/cors";
+import { healthRoutes } from "./routes/health.js";
 
 export async function buildApp(): Promise<FastifyInstance> {
+
   const app = Fastify({
     logger: true,
   });
@@ -13,19 +15,11 @@ export async function buildApp(): Promise<FastifyInstance> {
       success: true,
       application: "CreatorForge AI",
       version: "0.2.0",
-      status: "running",
+      message: "API Running"
     };
   });
 
-  app.get("/health", async () => {
-    return {
-      success: true,
-      status: "healthy",
-      uptime: process.uptime(),
-      node: process.version,
-      timestamp: new Date().toISOString(),
-    };
-  });
+  await app.register(healthRoutes);
 
   return app;
 }
